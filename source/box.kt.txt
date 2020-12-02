@@ -1,0 +1,165 @@
+package boxpackage
+
+/*
+ * Created by Tony Davidson on September 21, 2019
+*/
+
+// region simple Box class
+// Box version 1 = simple
+//class Box (var length: Int = 1, var width: Int = 1){ // primary constructor
+//
+//    fun output(){
+//        println("Length: $length, Width: $width")
+//    }
+//}
+// endregion
+
+
+
+
+
+// region completed Box class
+// box version 2
+// note parameter names can be the same or start with underscore
+open class Box (_length: Int = 1, _width: Int = 1){ // length and width are no longer properties just parameters
+
+    // this creates the property which has an auto get/set method
+    var length: Int = 1 // properties MUST be initialized or be abstract
+        // add your own setter to get validation
+        // note the 2 keywords value and field
+        set(value) { // value is the value passed to the setter
+
+            // add validation here so simple!!!:
+            require( value > 0)/* Add text after first run */{ "Invalid Length Value: Must be greater than zero" }
+
+            field = value // field refers to faceValue
+        }
+
+    var width: Int = 1 // properties MUST be initialized or be abstract
+        set(value) {
+            require( value > 0) /* Add text after first run */{ "Invalid Width Value: Must be greater than zero" }
+            field = value
+        }
+
+    init {
+        println("hello from init")
+        this.length = _length
+        this.width = _width
+    }
+
+    // you can add 1 or more secondary constructors (can even remove the primary!)
+    // all secondary constructors must call the primary constructor - if one exists - by using this:
+    constructor(squareValue: Int) : this(_length = squareValue, _width = squareValue) {
+        length = squareValue
+        width = squareValue
+    }
+
+    open fun output(){
+        println("Length: $length, Width: $width") // error early in version 2 because these are no longer properties
+    }
+}
+// endregion
+
+
+
+
+
+// region variation on completed Box class just uses secondary constructors
+// box version 2 variation with multiple constructors and no primary constructor
+class BoxAlternateVersion { // no primary constructor
+
+    // this creates the property which has an auto get/set method
+    var length: Int = 1 // properties MUST be initialized or be abstract
+        // add your own setter to get validation
+        // note the 2 keywords value and field
+        set(value) { // value is the value passed to the setter
+
+            // add validation here so simple!!!:
+            require( value > 0)/* Add text after first run */{ "Invalid Length Value: Must be greater than zero" }
+
+            field = value // field refers to faceValue
+        }
+
+    var width: Int = 1 // properties MUST be initialized or be abstract
+        set(value) {
+            require( value > 0) /* Add text after first run */{ "Invalid Width Value: Must be greater than zero" }
+            field = value
+        }
+
+//    init { // no need for init method in this setup
+//        println("hello from init")
+//        this.length = _length
+//        this.width = _width
+//    }
+
+    // you can add 1 or more secondary constructors (can even remove the primary!)
+
+    constructor(squareValue: Int)  { // no primary constructor to call!!
+        length = squareValue
+        width = squareValue
+    }
+
+    constructor(_length: Int = 1, _width: Int = 1)  { // no primary constructor to call!!
+        length = _length
+        width = _width
+    }
+
+    fun output(){
+        println("Length: $length, Width: $width")
+    }
+}
+// endregion
+
+
+
+
+
+// region main function for testing
+fun main() {
+    val square = Box(squareValue = 42)
+    square.output()
+
+    val box = Box(10,20)
+    box.output()
+
+    box.length = 30 // error in version 2 because these are no longer properties: fix =  var length: Int = 1
+    box.width = 30 // error in version 2 because these are no longer properties: fix = var width: Int = 1
+
+    box.output()
+
+    val box2 = Box() // can't make empty box! so add default values: var length: Int = 1, var width: Int = 1
+
+    box2.output()
+
+    val box3 = Box(_width = 2) // can use named arguments to expand role of primary constructor
+
+    box3.output()
+
+    // validation issues!
+
+    //   box3.length = -10 // ouch
+    box3.output()
+
+//    val box4 = Box(-3,-5) // ouch
+//    box4.output()
+
+    val ba1 = BoxAlternateVersion(4)
+    ba1.output()
+
+    val ba2 = BoxAlternateVersion(22,33)
+    ba2.output()
+
+
+    val cube = Cube(1,2,3)
+    cube.output()
+
+    // validation error tests:
+    //  cube.height = -5
+//    cube.width = -50
+//    cube.length = -42
+
+    cube.height = 1000000
+    cube.output()
+
+}
+// endregion

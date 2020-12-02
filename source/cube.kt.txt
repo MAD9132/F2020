@@ -1,0 +1,44 @@
+package boxpackage
+
+/*
+ * Created by Tony Davidson on September 21, 2019
+*/
+
+
+// region Cube class
+class Cube(_length: Int = 1, _width: Int = 1, _height: Int = 1) : Box(_length, _width) {
+
+    var height = 1
+        set(value) {
+
+            require( value > 0) {"Height Error: value must be greater than zero"}
+
+            field = value
+        }
+
+    init{
+        println("Hello from Cube init")
+        height = _height
+    }
+
+    override fun output(){
+//        super.output()
+//        println("Height: $height")
+
+        // or better solution in this case:
+        println("Length: $length, Width: $width, Height: $height")
+    }
+}
+// endregion
+
+
+
+
+
+
+// region main function for testing
+fun main() {
+    var cube = Cube(10,3,6)
+    cube.output()
+}
+// endregion

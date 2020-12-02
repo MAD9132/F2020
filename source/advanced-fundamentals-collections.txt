@@ -1,0 +1,222 @@
+// region lists:
+//    Lists are dynamic arrays. 
+//    List collections are available in two different versions: mutable and immutable, therefore:
+//    Lists can have either a mutable or immutable size
+//    Lists can have either mutable or immutable elements
+
+//    Creating immutable Lists:
+
+    val listOfInts = listOf(0, 2, 4, 6, 8, 10)
+
+    //   Note: You cannot change element values in an immutable List:
+
+    //   listOfInts[0] = 42 // this will cause an error!
+
+
+    //   Creating mutable lists:
+
+    val listOfInts2 = mutableListOf(0, 2, 4, 6, 8, 10)
+
+
+//    Mutable Lists are dynamic as they allow adding, removing and inserting elements.
+//    Mutable Lists allow for element content to change:
+
+    val listOfIntegers = mutableListOf(0, 2, 4, 6, 8, 10)
+    listOfIntegers[0] = 42 // changes the element value
+    listOfIntegers.removeAt(1) // removes the element
+    listOfIntegers.add(index = 2, element = 13) // insert at index 2
+    listOfIntegers.remove(13) // removes the element with the value 13
+    listOfIntegers[1] = 10
+    listOfIntegers[2] = 10
+
+
+//    Note: In the code above you can see that List collections allow duplicate values.
+//    If you wish for all the values in a List to be unique you should use a Set collection.
+
+
+// more list examples
+
+    var list1: MutableList<Int> = mutableListOf(1,2,3,4,5,6) // can be changed so use var
+
+    val list2: List<Int> = listOf(1,2) // cannot be changed or add etc so use val
+
+    list1.add(42)
+
+    println("First Item = ${list1.first()}") // gets the first element in a list same as [0]
+
+    println("Last Item = ${list1.last()}") // gets the last element in a list
+
+    println("Third Item = ${list1[2]}")
+
+    var subList = list1.subList(0,4) // inclusive/exclusive
+
+    subList.forEach { n -> println(n) }
+    // or use it
+    subList.forEach { println(it) }
+
+    println("Size of subList = ${subList.size}")
+
+    subList.remove(2)
+
+    subList.forEach { n -> println(n) }
+
+    println("Size of subList = ${subList.size}")
+
+    subList.clear()
+
+    subList.forEach { n -> println(n) }
+
+    println("Size of subList = ${subList.size}")
+// endregion
+
+// region sets:
+
+//    Sets are a variation of the List collection where each of the elements is unique. They are commonly used when duplicate values are not allowed, for example a Set of student numbers.
+
+//    Sets can have either a mutable or immutable size
+//    Sets can have either mutable or immutable elements
+//    Duplicate elements (values) are not allowed
+
+    //  Creating immutable Sets:
+
+    val setOfIntegers1 = setOf(0, 2, 4, 6, 8, 10)
+
+    // Note: You cannot change element values in an immutable Set:
+
+    //   setOfIntegers1[0] = 42 // this will cause an error!
+
+
+    //   Creating mutable Sets:
+
+    val setOfIntegers = mutableSetOf(0, 2, 4, 6, 8, 10)
+
+
+//    Mutable Sets are dynamic as they allow adding, removing and inserting elements.
+//    Note: Sets use the hashCode() method internally to filter out duplicates.
+//    If the Set is mutable adding a duplicate element to it replaces the original item with the new one.
+//    Note: The hashCode()  method can be overridden to change the default behaviour.
+
+//    Note: A Set is an unordered collection: Sets do not have indexes (indices), because all values are unique.
+//    When using Sets it does not matter what order is used to insert values:
+
+    setOfIntegers.remove(10) // this removes the element that contains the number 10
+
+// endregion
+
+// region maps:
+
+//    Maps care collections of key/value pairs (two objects) where each key is unique.
+//    Sets can have either a mutable or immutable size
+//    Sets can have either mutable or immutable elements
+//    Each key/value pair can be of any type
+
+    //    Creating immutable Maps:
+
+    val mapOfData1 = mapOf(
+        "name" to "Pat",
+        "email" to "pat@here.com",
+        "id" to "1234")
+
+    //    Creating mutable Maps:
+
+    val mapOfData = mutableMapOf(
+        "name" to "Pat Student",
+        "email" to "pat@college.com",
+        "id" to "1234")
+
+    //   Modifying mutable Maps:
+
+    mapOfData.put("grade", "A+") // using put method
+
+    mapOfData["grade"] = "A+" // using array indexing
+
+    //   Iterating through Maps:
+
+    mapOfData.forEach { (key, value) -> println("Key: $key Value: $value") } // Kotlin version
+
+    // more map examples
+
+    var map1 = mutableMapOf<Int, Any?>() // can be changed
+
+    val map2 = mapOf(1 to "Cheddar", 2 to "Cheese", 3 to 42) // cannot be changed
+
+    map1[1] = "Bob"
+    map1[2] = "Pat"
+    map1[3] = 12345
+
+    for ((k, v) in map1){
+        println("Key: $k Value: $v")
+    }
+
+    for ((k, v) in map2){
+        println("Key: $k Value: $v")
+    }
+
+    map1.remove(2)
+
+    for ((k, v) in map1){
+        println("Key: $k Value: $v")
+    }
+
+    map1.put(13, "Car")
+
+    for ((k, v) in map1){
+        println("Key: $k Value: $v")
+    }
+
+    println("Map1 Size = ${map1.size}")
+// endregion
+
+// region collection operators
+
+    val numberList = 1..20
+
+    // sum all the values in a list = reduce
+    val numberListSum = numberList.reduce {x, y -> x + y}
+    println("Reduced = $numberListSum")
+
+
+
+    // sum all the values in a list but start with an initial value = fold
+    val numberListSumFold = numberList.fold(1000) {x, y -> x + y}
+    println("Fold = $numberListSumFold")
+
+    // any odd numbers in the list?
+    println("Odd Number in list : ${numberList.any {it % 2 == 1}}")
+
+    // all odd numbers in the list?
+    println("All Odd Numbers in list : ${numberList.all {it % 2 == 1}}")
+
+    // all numbers in list greater than 10
+    val biggerThanTen = numberList.filter { it > 10 }
+    biggerThanTen.forEach{ n -> println("Greater than 10 in list: $n")}
+
+    // Map: performs an action on every single item in collection and returns a new list:
+
+    val add42 = numberList.map { it + 42 }
+    add42.forEach{ n -> println("Map Result = $n")}
+// endregion
+
+// region array of Any
+    class Cheese
+
+    val cheddar = Cheese()
+
+
+    var arrayOfAnyTypes = arrayOf<Any?>(42,13.0,3.14f,"Cheese", false, cheddar)
+
+    for(i in arrayOfAnyTypes){
+        when(i){
+            is Int -> println("$i is an Int")
+            //       is Double -> println("$i is a Double")
+            //       is Float -> println("$i is a Float")
+            is Float, is Double -> println("$i is a Decimal value") // example of combining cases
+            is String -> println("$i is a String")
+            is Boolean -> println("$i is a Boolean")
+            //is Cheese -> println("$i is a Cheese")
+            else -> println("$i is unknown type")
+            //   else -> println("$i is ${i!!::class.simpleName}") // just class name: using reflection
+            //   else -> println("$i is ${i!!::class.qualifiedName}") // with package name = null in this case
+        }
+    }
+// endregion

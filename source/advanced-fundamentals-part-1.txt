@@ -1,0 +1,177 @@
+package fundamentals
+
+// region lateinit
+class LateCheese{
+    // use in a class
+    lateinit var cheeseName: String // non-null but also not initialized
+
+    private fun cheeseMethod() {
+        cheeseName = "cheddar" //initialized here
+        println("Your $cheeseName is late!")
+    }
+
+    init {
+        cheeseMethod()
+    }
+}
+// endregion
+
+
+// region infix class example
+class LesFromage{
+
+    // Using the Kotlin keyword infix you can create member or extension
+    // functions that don't require () for arguments
+    // and don't use the dot operator (period)
+    infix fun showTheCheese(theCheese: String) {
+        println(theCheese)
+    }
+}
+// endregion
+
+
+
+fun main() {
+
+
+// region bitwise and Long
+var bigNumber = 123L // creates a long
+
+bigNumber = 1_2_3_4_567_89
+
+println(bigNumber)
+
+
+
+
+
+// various numeric classes – Byte, Short, Int, and Long – all define the bitwise functions and(), or(), shl(),
+// shr(), ushr(), and xor(), allowing some more readable expressions:
+
+val color = 0x123456
+val red = (color and 0xff0000) shr 16
+val green = (color and 0x00ff00) shr 8
+val blue = (color and 0x0000ff) shr 0
+
+
+
+
+val f = false
+val t = true
+
+val r = f or t
+
+println(r)
+//endregion
+
+// region lateinit call
+val lc = LateCheese()
+//endregion
+
+// region infix and Extension functions
+    val lesFromage = LesFromage()
+
+    lesFromage showTheCheese "Swiss"
+    //lesFromage.showTheCheese ("Swiss")
+
+    // Extension functions !
+
+    fun String.upperCaseFirstLetter() : String { // this refers to the string you call this function with
+        return this.substring(0,1).toUpperCase().plus(this.substring(startIndex = 1))
+    }
+
+    var myName: String = "tony"
+
+    myName = myName.upperCaseFirstLetter()
+    println(myName)
+
+    fun Int.crazy(x: Int): Int = x + this
+
+    println(13.crazy(42))
+
+    // by using infix we can create functions that are called without using dot operatorand ()
+    infix fun Int.crazyer(x: Int): Int = x + this
+
+    println(13 crazyer 42) // much easier to use
+// endregion
+
+//region function literals, it, lambdas:
+
+    val multiply = {number1: Int, number2: Int -> number1 * number2}
+
+    println( "Result: ${multiply(42,13)}")
+
+    val numberList = 1..20
+
+// if function has only 1 parameter, don't need to declare it, use "it" instead
+    val evenList = numberList.filter { it % 2 == 0 } // like this
+
+    evenList.forEach{n -> println(n)}
+
+    val oddList = numberList.filter {x -> x % 2 != 0 } // Or Lambda like this
+
+    oddList.forEach{println(it)}
+
+    println("\n\nLAMBDAS:\n")
+
+    // can be passed as arguments to other functions
+    // have no function name
+    // are surrounded by curly braces
+    // do not use keyword fun
+    // no access modifiers used
+    // return type is not specified because it is infered by the compiler
+    // parameters are not surrounded by ()
+    // parameter types must be stated (not inferd) or will get compile error
+
+    val f1 = { println("\n\nI'm a function\n")}
+
+    f1() // call
+
+    // expand by adding a parameter:
+
+    val title = {text: String -> println("\n\n${text.toUpperCase()}\n")}
+
+    title("lambda function call")
+
+    val multi = { a: Int, b: Int -> a * b} // more than 1 argument
+
+    println(multi(10,42))
+
+    val studentNames = listOf("Bob", "Leslie", "Pat")
+
+    println(studentNames.last()) // prints the last name in list
+
+    println(studentNames.last{s -> s.length == 6}) // prints the last name in list which has a length of 6
+    // note above we have removed the () from last as they are not required and s is a String because list is Strings
+
+    println("\n\nIT:\n\n")
+
+    // simplify by using the "it" argument name = auto generated =
+    // like "this" it refers to the list we are examining
+    println(studentNames.last{it.length == 6})
+
+    studentNames.forEach { println(it)} // or do this for all elements
+
+
+    title("anon functions")
+
+    val listOfValues = listOf(1,2,3,4,5,6,7,8)
+
+
+    listOfValues.forEach( fun (v) {
+        if(v % 2 == 1 ){
+            println("$v is an ODD NUMBER")
+        }
+    })
+
+
+    // use lambda
+    listOfValues.forEach {// remove fun keyword, the v arg the forEach () and use it to reduce code
+        if (it % 2 == 1) {
+            println("$it is an ODD NUMBER")
+        }
+    }
+// endregion
+
+
+}

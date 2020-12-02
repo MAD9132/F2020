@@ -1,0 +1,141 @@
+// region Exception Handling:
+
+    // Kotlin try catch is consistent with other languages
+    val divisor = 5 // switch to zero to throw exception
+
+    try {
+        if(divisor == 0){
+            throw IllegalArgumentException("Divide by Zero Error!!")
+        } else {
+            println("42 / $divisor = ${42/divisor}")
+        }
+    } catch (e: IllegalArgumentException) {
+        println(e.message)
+    } finally {
+        println("supports finally too!")
+    }
+// endregion
+
+// region Input and null
+
+    print("\n\nEnter a positive whole number: ")
+    try {
+        val input: String? = readLine()
+        // val chosenOptionNumber =   input!!.toInt() // !! is not ideal
+
+        // if readline returns null then readLine()?.toShortOrNull() also returns null
+        // in either case the default value (-1) will be used
+        val chosenOptionNumber = readLine()?.toIntOrNull() ?: -1
+
+        println("you entered $chosenOptionNumber")
+
+    }
+    catch (e: Exception ) {
+
+        when (e) {
+            is NumberFormatException -> println("Invalid input: ${e.message}")
+            is ArithmeticException -> println("Math Error: ${e.message}")
+            else -> println("Error: ${e.message}")
+        }
+    }
+
+// endregion
+
+// region working with nullable types
+
+    //   There are several ways to safely work with nullable types in Kotlin
+
+    //   Using a traditional null check:
+
+
+    val cheesy: String? = "Swiss"
+
+    if(cheesy != null) {
+        println(cheesy.toUpperCase())
+    } else {
+        println("Your cheese is null!")
+    }
+
+    //   Note: The compiler knows that the null check has been performed and allows subsequent calls
+    //   (such as toUpperCase()) in the if branch of the condition statement.
+
+
+
+//    Safe call operator:  ?.
+//    A null comparison as shown above is simple but requires extra code (the condition statement)
+//    To simplify this code Kotlin provides the Safe call operator ?.
+//    The Safe call operator allows for more concise code by combining both the null-check and a method call into a
+//    single expression:
+
+
+    cheesy?.toUpperCase()
+
+    //   The statement above is equivalent to:
+
+    if(cheesy != null) {
+        println(cheesy.toUpperCase())
+    }
+
+
+//    To safely output to the console the String variable cheese in uppercase and also its length:
+
+    val cheeze: String? = null
+
+    println(cheeze?.toUpperCase())
+    println(cheeze?.length)
+
+//    The code above will output null for both statements as that is the value of the cheese String variable
+//    console output:
+//    null
+//    null
+
+
+//    You can also create code that only executes an operation if the variable is not null, by using both the Safe call
+//    operator with the let extension function:
+
+    val fromage: String? = null
+
+    fromage?.let { println(it.toUpperCase()) }
+    fromage?.let { println(it.length) }
+
+    //  The expression inside the let function will only execute only if the variable cheese is not null.
+
+    //  console output:
+    // nothing is output
+    // nothing is output
+
+
+    //   Safe operator calls can be chained to simplify code:
+
+    //   val studentEmailAddress: String? = number?.name?.email // just an example no student class exists here
+
+    //   In the code example above the variable studentEmail will be null if either number, name or email are null.
+
+
+
+//    The Elvis operator: ?:
+//
+//    The Elvis operator ?:  is similar to the Safe call operator with an additional feature, it provides a default
+//    value when the variable is null.
+//    The Elvis operator takes two values, it returns the first value if the variable is not null, else,
+//    it returns the second value:
+
+    val myCheeze = cheeze ?: "Cheddar"
+
+    //  The code above is equivalent to:
+
+    val myCheeseStick = if(myCheeze != null) myCheeze else "Cheddar"
+    //   Note: Even when using shorthand in Kotlin (above) the Elvis operator provides a less verbose option
+
+//    The Elvis operator can be used with Safe call operator to provide a default value:
+
+    val length = cheeze?.length ?: -1
+
+
+    //   val studentEmail = number?.name?.email ?: "No Email Address" // example code no student class exists here
+
+    //    The Elvis operator can also be used to throw an exception:
+
+    val myCheese = cheeze ?: throw IllegalArgumentException("Your cheeze cannot be null")
+
+// endregion    

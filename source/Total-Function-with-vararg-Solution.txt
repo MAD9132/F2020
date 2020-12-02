@@ -1,0 +1,45 @@
+import java.text.DecimalFormat
+
+
+fun main() {
+
+    var totalCost = total(11.32f,23.67f, 2.55f, 16.99f)
+
+    outputTotal(totalCost)
+
+    totalCost = total(11.32f,23.67f, 2.55f, 16.99f, taxRate = 0.15f)
+
+    outputTotal(totalCost)
+
+    val listOfGoods = floatArrayOf(11.54f, 23.99f, 16.88f,9.99f, 8.80f,21.75f) // must be floatArrayOf
+
+    totalCost = total(*listOfGoods, taxRate = .15f)
+
+    outputTotal(totalCost)
+
+    val anotherListOfGoods = floatArrayOf(11.54f, 23.99f, 16.88f,9.99f, 8.80f,21.75f, 3.77f,8.88f,13.66f)
+
+    totalCost = total(*anotherListOfGoods, taxRate = .15f)
+
+    outputTotal(totalCost)
+
+}
+
+
+fun total(vararg cost: Float, taxRate: Float = 0.13f): Float {
+    var total = 0.0f
+    for(n in cost){
+        total += n
+    }
+    total += total * taxRate
+    return total
+}
+
+
+fun outputTotal(cost: Float) {
+    val df = DecimalFormat("#,###.##")
+    println("$${df.format(cost)}")
+}
+
+
+
